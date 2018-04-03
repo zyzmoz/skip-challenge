@@ -1,19 +1,38 @@
 import React, { Component } from 'react';
 import { Menu, MenuItem, Item, Input } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import * as productProvider from '../providers/products';
+import { connect } from 'react-redux';
+import {products as actions} from '../actions';
 
-const MenuComponent = () =>
-  <Menu>    
-    <Link className="menu item" to="/">Home</Link>
-    <Link className="menu item" to="/messages">Messages</Link>
-    <Link className="menu item" to="/friends">Friends</Link>    
-    <Menu.Menu position="right">
-      <MenuItem>
-        <Input icon="search" type="text" placeholder="Search" />
-      </MenuItem>
-      <MenuItem onClick={() => alert('Logout')}>Logout</MenuItem>
-    </Menu.Menu>
-  </Menu>
+class MenuComponent extends Component {
+  searchProduct = (str) => {
+    productProvider.searchProducts(str).then((res) => {
+      this.props.loadProducts(res.data);
+    });
+  }
+  render() {
+    return (
+      <Menu>
+        <Link className="menu item" to="/">Products</Link>
+        <Link className="menu item" to="/cart">Cart</Link>
+        <Link className="menu item" to="/friends">Friends</Link>
+        <Menu.Menu position="right">
+          <MenuItem>
+            <Input
+              icon="search"
+              type="text"
+              placeholder="Search"
+              onChange={e => this.searchProduct(e.target.value)} />
+          </MenuItem>
+          <MenuItem onClick={() => alert('Logout')}>Logout</MenuItem>
+        </Menu.Menu>
+      </Menu>
+    )
+  }
+}
 
+const mapStateToProps = (state) =>
+  ({ products: state.products });
 
-export default MenuComponent;
+export default connect(mapStateToProps, actions)(MenuComponent);

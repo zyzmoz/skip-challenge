@@ -1,3 +1,18 @@
 .padding {
   padding: 5px;
 }
+
+.card {
+  height: 250px;  
+}
+
+.row {
+  margin: 0 auto;
+}
+
+.text-left {
+  text-align: left;
+}
+
+
+
