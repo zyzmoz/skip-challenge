@@ -16,7 +16,7 @@ class HomePage extends Component {
   componentWillMount() {
     console.log(this.props);
     productProvider.getProdutcs().then(res => {
-      this.props.actions.loadProducts(res.data);      
+      this.props.actions.loadProducts(res.data);
     });
   }
 
@@ -46,7 +46,7 @@ class HomePage extends Component {
 
   render() {
     console.log(this.props);
-    
+
     const productList = this.props.products;
 
     return (
@@ -61,10 +61,10 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = (state) =>
-  ({products: state.products});
+  ({ products: state.products });
 
 const mapDispatchToProps = (dispatch) =>
-  ({actions: bindActionCreators(Object.assign({}, products, cart), dispatch)});
+  ({ actions: bindActionCreators(Object.assign({}, products, cart), dispatch) });
 
 
 

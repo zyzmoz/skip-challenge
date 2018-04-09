@@ -38,7 +38,7 @@ class CartPage extends Component {
   }
 
   remove = (id) => {
-    console.log(id);    
+    console.log(id);
     this.props.remove(id);
   }
 
@@ -58,7 +58,7 @@ class CartPage extends Component {
 const mapStateToProps = (state) =>
   ({ cart: state.cart });
 
-const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(cart, dispatch);
 }
 

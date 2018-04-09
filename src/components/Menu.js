@@ -11,12 +11,22 @@ class MenuComponent extends Component {
       this.props.loadProducts(res.data);
     });
   }
+
+  loginButton = () => {
+    const isLoggedIn = false;
+    if (!isLoggedIn) {
+      return <Link className="menu item" to="/Login">Login</Link>
+    } else {
+      <MenuItem onClick={() => alert('Logout')}>Logout</MenuItem>
+    }
+  }
+
   render() {
     return (
       <Menu>
         <Link className="menu item" to="/">Products</Link>
         <Link className="menu item" to="/cart">Cart</Link>
-        <Link className="menu item" to="/friends">Friends</Link>
+        <Link className="menu item" to="/orders">Orders</Link>
         <Menu.Menu position="right">
           <MenuItem>
             <Input
@@ -25,7 +35,7 @@ class MenuComponent extends Component {
               placeholder="Search"
               onChange={e => this.searchProduct(e.target.value)} />
           </MenuItem>
-          <MenuItem onClick={() => alert('Logout')}>Logout</MenuItem>
+          {this.loginButton()}
         </Menu.Menu>
       </Menu>
     )
