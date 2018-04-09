@@ -16,7 +16,10 @@ class SignUpPage extends Component {
   }
 
   createAccount = () => {
-
+    const { name, email, address, password } = this.state;
+    authProvider.createAccount({name, email, address, password}).then((res) => {
+      console.log(res);
+    });
   }
 
   render = () =>{
@@ -27,6 +30,7 @@ class SignUpPage extends Component {
       this.state.address !== '' &&
       this.state.password !== '' &&
       (this.state.password === this.state.password2); 
+
     return(
       <div className="padding">
         <Grid
@@ -80,7 +84,7 @@ class SignUpPage extends Component {
                   onChange={e => this.setState({ password2: e.target.value })}
                 />           
 
-                <Button disabled={!isValid} color='teal' fluid size='large'>Login</Button>
+                <Button disabled={!isValid} onClick={() => this.createAccount()} color='teal' fluid size='large'>Login</Button>
               </Segment>
             </Form>
             <Message>

@@ -2,10 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Grid, Form, Header, Message, Segment } from 'semantic-ui-react';
+import * as authProvider from '../providers/auth';
 
 
 class LoginPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  login = () => {
+    const { email, password } = this.state;
+
+    authProvider.login(email, password).then((res) => {
+      console.log(res);  
+      localStorage.setItem('XSRF-TOKEN', res.data);    
+    });
+  }
+
   render = () => {
+    const isValid = this.state.email !== '' && this.state.password !== '';
     return (
       <div className="padding">
         <Grid
@@ -24,6 +43,7 @@ class LoginPage extends Component {
                   icon='user'
                   iconPosition='left'
                   placeholder='E-mail address'
+                  onChange={e => this.setState({email: e.target.value})}
                 />
                 <Form.Input
                   fluid
@@ -31,9 +51,10 @@ class LoginPage extends Component {
                   iconPosition='left'
                   placeholder='Password'
                   type='password'
+                  onChange={e => this.setState({ password: e.target.value })}
                 />
 
-                <Button color='teal' fluid size='large'>Login</Button>
+                <Button disabled={!isValid} onClick={() => this.login()} color='teal' fluid size='large'>Login</Button>
               </Segment>
             </Form>
             <Message>

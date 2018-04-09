@@ -13,11 +13,11 @@ class MenuComponent extends Component {
   }
 
   loginButton = () => {
-    const isLoggedIn = false;
+    const isLoggedIn = localStorage.getItem('XSRF-TOKEN')? true: false;
     if (!isLoggedIn) {
       return <Link className="menu item" to="/Login">Login</Link>
     } else {
-      <MenuItem onClick={() => alert('Logout')}>Logout</MenuItem>
+      return <MenuItem onClick={() => localStorage.removeItem('XSRF-TOKEN')}>Logout</MenuItem>
     }
   }
 
