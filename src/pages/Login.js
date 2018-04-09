@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Grid, Form, Header, Message, Segment } from 'semantic-ui-react';
 import * as authProvider from '../providers/auth';
+import { auth as actions }  from '../actions';
+import withAuthorization from '../components/hoc/withAuthorization';
 
 
 class LoginPage extends Component {
-  constructor(props) {
-    super(props);
+  
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       email: '',
       password: ''
-    }
+    }  
   }
+
+  
 
   login = () => {
     const { email, password } = this.state;
 
     authProvider.login(email, password).then((res) => {
-      console.log(res);  
-      localStorage.setItem('XSRF-TOKEN', res.data);    
+      this.props.login(res.data);
     });
   }
 
   render = () => {
+    
     const isValid = this.state.email !== '' && this.state.password !== '';
     return (
       <div className="padding">
@@ -67,4 +71,6 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+
+
+export default withAuthorization(LoginPage);

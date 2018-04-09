@@ -3,7 +3,8 @@ import { Menu, MenuItem, Item, Input } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as productProvider from '../providers/products';
 import { connect } from 'react-redux';
-import {products as actions} from '../actions';
+import { bindActionCreators } from 'redux';
+import {products, auth} from '../actions';
 
 class MenuComponent extends Component {
   searchProduct = (str) => {
@@ -13,15 +14,21 @@ class MenuComponent extends Component {
   }
 
   loginButton = () => {
-    const isLoggedIn = localStorage.getItem('XSRF-TOKEN')? true: false;
-    if (!isLoggedIn) {
+    // const isLoggedIn = localStorage.getItem('XSRF-TOKEN')? true: false;
+    if (!this.props.auth) {
       return <Link className="menu item" to="/Login">Login</Link>
     } else {
-      return <MenuItem onClick={() => localStorage.removeItem('XSRF-TOKEN')}>Logout</MenuItem>
+      return <MenuItem onClick={() => this.signOut()}>Logout</MenuItem>
     }
   }
 
+  signOut = () => {
+    this.props.signOut();
+  }
+
   render() {
+    console.log(this.props.auth);
+    
     return (
       <Menu>
         <Link className="menu item" to="/">Products</Link>
@@ -43,6 +50,10 @@ class MenuComponent extends Component {
 }
 
 const mapStateToProps = (state) =>
-  ({ products: state.products });
+  ({ products: state.products, auth: state.auth });
 
-export default connect(mapStateToProps, actions)(MenuComponent);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({...auth, ...products}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuComponent);

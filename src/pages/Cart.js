@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { cart } from '../actions';
 import { List, Button, Grid } from 'semantic-ui-react';
+import withAuthorization from '../components/hoc/withAuthorization';
 
 
 class CartPage extends Component {
@@ -62,4 +63,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(cart, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default withAuthorization(CartPage);
