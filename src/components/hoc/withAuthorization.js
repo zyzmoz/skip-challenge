@@ -8,6 +8,12 @@ import { withRouter } from 'react-router-dom';
 
 const withAuthorization = (ComposedComponent) => {
   class withAuthorization extends Component {
+
+    componentWillMount = () => {
+      if (this.props.auth) {
+        this.props.history.push('/');
+      }
+    }
        
     componentWillUpdate = () => {
       if (!this.props.auth){

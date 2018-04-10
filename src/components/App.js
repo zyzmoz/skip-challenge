@@ -7,6 +7,7 @@ import HomePage from '../pages/Home';
 import CartPage from '../pages/Cart';
 import LoginPage from '../pages/Login';
 import SignUpPage from '../pages/SignUp';
+import OrdersPage from '../pages/Orders';
 
 const App = () =>
   <Router >
@@ -23,6 +24,9 @@ const App = () =>
       />
       <Route exact path="/signup"
         component={() => <SignUpPage />}
+      />
+      <Route exact path="/orders"
+        component={() => <OrdersPage />}
       />
     </div>
   </Router>

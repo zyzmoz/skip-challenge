@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { cart } from '../actions';
 import { List, Button, Grid } from 'semantic-ui-react';
-import withAuthorization from '../components/hoc/withAuthorization';
+import * as orderProvider from '../providers/order';
 
 
 class CartPage extends Component {
@@ -43,6 +43,18 @@ class CartPage extends Component {
     this.props.remove(id);
   }
 
+  checkout = () => {
+    orderProvider.getOrdersByCustomer().then(res => {
+      console.log(res);      
+    });
+    orderProvider.createOrder(this.props.cart).then(res => {
+      console.log(res);      
+    }).catch(err => {
+      console.log(err);
+      
+    });
+  }  
+
   render() {
     const cart = this.props.cart;
     console.log(this.props);
@@ -51,6 +63,10 @@ class CartPage extends Component {
         <List divided verticalAlign='middle'>
           {this.listBuilder(cart)}
         </List>
+        <Button 
+          disabled={this.props.cart.length === 0} 
+          color="green"
+          onClick={() => this.checkout()}>Checkout</Button>
       </div>
     )
   }
@@ -63,4 +79,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(cart, dispatch);
 }
 
-export default withAuthorization(CartPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);

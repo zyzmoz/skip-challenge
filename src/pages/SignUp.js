@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, Form, Header, Message, Segment } from 'semantic-ui-react';
 import * as authProvider from '../providers/auth';
+import { withRouter } from 'react-router-dom';
 
 class SignUpPage extends Component {
   constructor(props){
@@ -19,6 +20,8 @@ class SignUpPage extends Component {
     const { name, email, address, password } = this.state;
     authProvider.createAccount({name, email, address, password}).then((res) => {
       console.log(res);
+      if (res.status === 200)
+        this.props.history.push('/login');
     });
   }
 
@@ -97,4 +100,4 @@ class SignUpPage extends Component {
   }
 }
 
-export default SignUpPage;
+export default withRouter(SignUpPage);
